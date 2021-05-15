@@ -45,14 +45,16 @@ function ListItem({src, alt}) {
         alt={alt}
         src={src}
       ></gif-player>
-      <div class="ListItem__Controls">
-        <div class="ListItem__Copy">
-          <label class="CopyLinkLabel">
-            <span>{alt}</span>
-            <input class="visually-hidden" type="text" value={src} />
-          </label>
-          <button aria-label="Copy link"><img src="../icons/link.svg" alt="" /></button>
+    </div>
+    <div class="ListItem__Controls">
+      <div class="ListItem__Copy">
+        <div>
+        <label class="CopyLinkLabel">
+          <span>{alt}</span>
+          <input class="visually-hidden" type="text" value={src} />
+        </label>
         </div>
+        <div><button aria-label="Copy link">Copy link</button></div>
       </div>
     </div>
   </li>
