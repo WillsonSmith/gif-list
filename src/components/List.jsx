@@ -2,6 +2,7 @@ import {useState, useEffect, useRef} from 'preact/hooks';
 import '@willson/gif-player';
 import './List.css';
 
+
 const GIF_LIST_URL = 'https://raw.githubusercontent.com/WillsonSmith/gifs/master/gifs.json';
 
 export function List(props) {
@@ -12,6 +13,21 @@ export function List(props) {
     setList(json);
   })
 
+
+  return (
+    <ul className="List">
+      {
+        list.map(gif => {
+          return <ListItem src={`https://raw.githubusercontent.com/WillsonSmith/gifs/master/gifs/${gif.name}`} alt={gif.name} />
+        })
+      }
+    </ul>
+  )
+}
+
+
+function ListItem({src, alt}) {
+  
   function handleMouseOver(event) {
     event.target.play();
   }
@@ -19,18 +35,25 @@ export function List(props) {
     event.target.pause();
   }
 
-  return (
-    <div className="List">
-      {
-        list.map(gif => {
-          return <gif-player
-          onMouseOver={handleMouseOver}
-          onMouseLeave={handleMouseLeave}
-          alt={gif.name}
-          src={`https://raw.githubusercontent.com/WillsonSmith/gifs/master/gifs/${gif.name}`}
-        ></gif-player>
-        })
-      }
+  function copyLink() {}
+
+  return <li class="ListItem">
+    <div class="ListItem__Content">
+      <gif-player
+        onMouseOver={handleMouseOver}
+        onMouseLeave={handleMouseLeave}
+        alt={alt}
+        src={src}
+      ></gif-player>
+      <div class="ListItem__Controls">
+        <div class="ListItem__Copy">
+          <label class="CopyLinkLabel">
+            <span>{alt}</span>
+            <input class="visually-hidden" type="text" value={src} />
+          </label>
+          <button aria-label="Copy link"><img src="../icons/link.svg" alt="" /></button>
+        </div>
+      </div>
     </div>
-  )
+  </li>
 }
