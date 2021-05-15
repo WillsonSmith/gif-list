@@ -64,9 +64,14 @@
 }
 
 .ListItem__Copy button {
+  background: rgb(239, 239, 239);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  border-radius: 3px;
   font-family: inherit;
   padding: 0.5rem;
   font-size: 1rem;
+
+  -webkit-appearance: none;
 }
 
 .CopyLinkTitle {
@@ -86,10 +91,11 @@
 
 .CopyLinkTextField {
   font-family: "Varela Round", sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   width: 100%;
   margin: 0;
   padding: 0.5rem 0.2rem;
   border: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  -webkit-appearance: none;
 }
