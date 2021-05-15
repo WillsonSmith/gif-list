@@ -5,7 +5,6 @@ export function App(props) {
   return (
     <>
       <List />
-      
     </>
   )
 }

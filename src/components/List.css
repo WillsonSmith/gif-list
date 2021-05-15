@@ -41,12 +41,12 @@
   margin-top: 0.5rem;
 }
 
-.ListItem__Controls::before {
+/* .ListItem__Controls::before {
   content: "";
   top: -0.5rem;
   border-top: 1px solid rgba(0, 0, 0, 0.6);
   width: 95%;
-}
+} */
 
 .ListItem__Copy {
   display: flex;
@@ -69,13 +69,27 @@
   font-size: 1rem;
 }
 
-.CopyLinkLabel {
+.CopyLinkTitle {
   font-size: 1.2rem;
   opacity: 0.7;
   margin-right: 1vw;
 }
 
+.InputWrapper {
+  display: flex;
+  margin-top: 0.5rem;
+  padding: 0 0.5rem;
+}
+.CopyLinkLabel {
+  flex: 1;
+}
+
 .CopyLinkTextField {
+  font-family: "Varela Round", sans-serif;
+  font-size: 14px;
+  width: 100%;
   margin: 0;
-  padding: 0;
+  padding: 0.5rem 0.2rem;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
 }

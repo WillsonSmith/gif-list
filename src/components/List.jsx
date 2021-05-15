@@ -27,7 +27,8 @@ export function List(props) {
 
 
 function ListItem({src, alt}) {
-  
+  const inputElement = useRef(null);
+
   function handleMouseOver(event) {
     event.target.play();
   }
@@ -35,7 +36,10 @@ function ListItem({src, alt}) {
     event.target.pause();
   }
 
-  function copyLink() {}
+  function copyLink() {
+    inputElement.current.select();
+    document.execCommand('copy');
+  }
 
   return <li class="ListItem">
     <div class="ListItem__Content">
@@ -46,15 +50,17 @@ function ListItem({src, alt}) {
         src={src}
       ></gif-player>
     </div>
+    <div class="InputWrapper">
+      <label class="CopyLinkLabel">
+        <input class="CopyLinkTextField" ref={inputElement} type="text" value={src} />
+      </label>
+    </div>
     <div class="ListItem__Controls">
       <div class="ListItem__Copy">
         <div>
-        <label class="CopyLinkLabel">
-          <span>{alt}</span>
-          <input class="visually-hidden" type="text" value={src} />
-        </label>
+          <span class="CopyLinkTitle">{alt}</span>
         </div>
-        <div><button aria-label="Copy link">Copy link</button></div>
+        <div><button aria-label="Copy link" onClick={copyLink}>Copy link</button></div>
       </div>
     </div>
   </li>
