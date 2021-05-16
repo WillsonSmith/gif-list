@@ -10,7 +10,7 @@ export function List(props) {
   useEffect(async () => {
     const response = await fetch(GIF_LIST_URL);
     const json = await response.json();
-    setList(json);
+    setList(json.slice(1, 8));
   })
 
   const map = new Map();
@@ -21,18 +21,16 @@ export function List(props) {
   const observer = new IntersectionObserver((entries) => {
     requestIdleCallback(() => {
       for (const entry of entries) {
-        const playing = entry.intersectionRatio > 0.9 ? true : false;
-
-        if (playing) {
+        if (entry.intersectionRatio > 0.7) {
           map.get(entry.target)[0]();
         }
-        if (!playing) {
+        if (entry.intersectionRatio < 0.45) {
           map.get(entry.target)[1]();
         }
       }
     });
   }, {
-    threshold: [0.97, 0.4]
+    threshold: [0.8, 0.3]
   })
 
   return (
