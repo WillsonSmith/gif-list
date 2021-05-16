@@ -10,7 +10,7 @@ export function List(props) {
   useEffect(async () => {
     const response = await fetch(GIF_LIST_URL);
     const json = await response.json();
-    setList(json.slice(1, 5));
+    setList(json);
   })
 
   const map = new Map();
@@ -21,7 +21,6 @@ export function List(props) {
   const observer = new IntersectionObserver((entries) => {
     requestIdleCallback(() => {
       for (const entry of entries) {
-        console.log(entry.intersectionRatio)
         const playing = entry.intersectionRatio > 0.9 ? true : false;
 
         if (playing) {
@@ -55,18 +54,14 @@ export function List(props) {
 function ListItem({src, alt, observer, onUpdateCallback}) {
   const inputElement = useRef(null);
   const gifPlayerRef = useRef(null);
-  const [playing, setPlaying] = useState(false);
-
 
   useEffect(() => {
     if (gifPlayerRef.current) {
       const {current: player} = gifPlayerRef;
       observer.observe(player);
         onUpdateCallback(player, () => {
-          console.log('playing')
           player.play()
         }, () => {
-          console.log('pause');
           player.pause();
         });
     }
