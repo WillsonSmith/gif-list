@@ -10,7 +10,7 @@ export function List(props) {
   useEffect(async () => {
     const response = await fetch(GIF_LIST_URL);
     const json = await response.json();
-    setList(json.slice(1, 8));
+    setList(json);
   })
 
   const map = new Map();
@@ -21,7 +21,6 @@ export function List(props) {
   const observer = new IntersectionObserver((entries) => {
     requestIdleCallback(() => {
       for (const entry of entries) {
-        console.log(entry.target, entry.intersectionRatio)
         if (entry.intersectionRatio >= 0.75) {
           map.get(entry.target)[0]();
         }
