@@ -10,15 +10,41 @@ export function List(props) {
   useEffect(async () => {
     const response = await fetch(GIF_LIST_URL);
     const json = await response.json();
-    setList(json);
+    setList(json.slice(1, 5));
   })
 
+  const map = new Map();
+  function handleUpdateCallback(element, playCallback, pauseCallback) {
+    map.set(element, [playCallback, pauseCallback]);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    requestIdleCallback(() => {
+      for (const entry of entries) {
+        console.log(entry.intersectionRatio)
+        const playing = entry.intersectionRatio > 0.9 ? true : false;
+
+        if (playing) {
+          map.get(entry.target)[0]();
+        }
+        if (!playing) {
+          map.get(entry.target)[1]();
+        }
+      }
+    });
+  }, {
+    threshold: [0.97, 0.4]
+  })
 
   return (
     <ul className="List">
       {
         list.map(gif => {
-          return <ListItem src={`https://raw.githubusercontent.com/WillsonSmith/gifs/master/gifs/${gif.name}`} alt={gif.name} />
+          return <ListItem
+                    src={`https://raw.githubusercontent.com/WillsonSmith/gifs/master/gifs/${gif.name}`}
+                    alt={gif.name}
+                    observer={observer}
+                    onUpdateCallback={handleUpdateCallback} />
         })
       }
     </ul>
@@ -26,8 +52,25 @@ export function List(props) {
 }
 
 
-function ListItem({src, alt}) {
+function ListItem({src, alt, observer, onUpdateCallback}) {
   const inputElement = useRef(null);
+  const gifPlayerRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+
+
+  useEffect(() => {
+    if (gifPlayerRef.current) {
+      const {current: player} = gifPlayerRef;
+      observer.observe(player);
+        onUpdateCallback(player, () => {
+          console.log('playing')
+          player.play()
+        }, () => {
+          console.log('pause');
+          player.pause();
+        });
+    }
+  }, [gifPlayerRef]);
 
   function handleMouseOver(event) {
     event.target.play();
@@ -43,7 +86,7 @@ function ListItem({src, alt}) {
 
   return <li class="ListItem">
     <div class="ListItem__Content">
-      <gif-player
+      <gif-player ref={gifPlayerRef}
         onMouseOver={handleMouseOver}
         onMouseLeave={handleMouseLeave}
         alt={alt}
