@@ -13,12 +13,33 @@ export function List(props) {
     setList(json);
   })
 
+  const map = new Map();
+  function handleUpdateCallback(element, playCallback, pauseCallback) {
+    map.set(element, [playCallback, pauseCallback]);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    requestIdleCallback(() => {
+      for (const entry of entries) {
+        if (entry.intersectionRatio >= 0.75) {
+          map.get(entry.target)[0]();
+        }
+        if (entry.intersectionRatio <= 0.5) {
+          map.get(entry.target)[1]();
+        }
+      }
+    });
+  }, {threshold: [0.5, 0.75]} )
 
   return (
     <ul className="List">
       {
         list.map(gif => {
-          return <ListItem src={`https://raw.githubusercontent.com/WillsonSmith/gifs/master/gifs/${gif.name}`} alt={gif.name} />
+          return <ListItem
+                    src={`https://raw.githubusercontent.com/WillsonSmith/gifs/master/gifs/${gif.name}`}
+                    alt={gif.name}
+                    observer={observer}
+                    onUpdateCallback={handleUpdateCallback} />
         })
       }
     </ul>
@@ -26,8 +47,21 @@ export function List(props) {
 }
 
 
-function ListItem({src, alt}) {
+function ListItem({src, alt, observer, onUpdateCallback}) {
   const inputElement = useRef(null);
+  const gifPlayerRef = useRef(null);
+
+  useEffect(() => {
+    if (gifPlayerRef.current) {
+      const {current: player} = gifPlayerRef;
+      observer.observe(player);
+        onUpdateCallback(player, () => {
+          player.play()
+        }, () => {
+          player.pause();
+        });
+    }
+  }, [gifPlayerRef]);
 
   function handleMouseOver(event) {
     event.target.play();
@@ -43,7 +77,7 @@ function ListItem({src, alt}) {
 
   return <li class="ListItem">
     <div class="ListItem__Content">
-      <gif-player
+      <gif-player ref={gifPlayerRef}
         onMouseOver={handleMouseOver}
         onMouseLeave={handleMouseLeave}
         alt={alt}
