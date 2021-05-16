@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "@willson/gif-player": "^1.0.0",
-    "preact": "^10.5.13"
+    "preact": "^10.5.13",
+    "requestidlecallback-polyfill": "^1.0.2"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.0.0",

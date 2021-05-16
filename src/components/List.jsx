@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef} from 'preact/hooks';
 import '@willson/gif-player';
 import './List.css';
-
+import 'requestidlecallback-polyfill';
 
 const GIF_LIST_URL = 'https://raw.githubusercontent.com/WillsonSmith/gifs/master/gifs.json';
 
