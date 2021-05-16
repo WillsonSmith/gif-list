@@ -59,6 +59,13 @@ function ListItem({src, alt, observer, onUpdateCallback}) {
           player.pause();
         });
     }
+
+    return () => {
+      if (gifPlayerRef.current) {
+        const {current: player} = gifPlayer;
+      IntersectionObserver.unobserve(player);
+      }
+    }
   }, [gifPlayerRef]);
 
   function handleMouseOver(event) {
