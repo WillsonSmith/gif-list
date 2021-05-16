@@ -11,13 +11,12 @@ export function List(props) {
     const response = await fetch(GIF_LIST_URL);
     const json = await response.json();
     setList(json);
-  })
+  }, [])
 
   const map = new Map();
   function handleUpdateCallback(element, playCallback, pauseCallback) {
     map.set(element, [playCallback, pauseCallback]);
   }
-
   const observer = new IntersectionObserver((entries) => {
     requestIdleCallback(() => {
       for (const entry of entries) {
@@ -50,7 +49,6 @@ export function List(props) {
 function ListItem({src, alt, observer, onUpdateCallback}) {
   const inputElement = useRef(null);
   const gifPlayerRef = useRef(null);
-
   useEffect(() => {
     if (gifPlayerRef.current) {
       const {current: player} = gifPlayerRef;
