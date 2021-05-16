@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [
     preact(),
     VitePWA({
+      strategies: "injectManifest",
       manifest: {},
       workbox: {},
     }),

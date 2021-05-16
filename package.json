@@ -4,15 +4,19 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "https-preview": "serve dist",
+    "sw-preview": "npm run build && npm run https-preview"
   },
   "dependencies": {
     "@willson/gif-player": "^1.0.0",
     "preact": "^10.5.13",
-    "requestidlecallback-polyfill": "^1.0.2"
+    "requestidlecallback-polyfill": "^1.0.2",
+    "workbox-precaching": "^6.1.5"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.0.0",
+    "https-localhost": "^4.6.5",
     "vite": "^2.3.0",
     "vite-plugin-pwa": "^0.7.3"
   }
