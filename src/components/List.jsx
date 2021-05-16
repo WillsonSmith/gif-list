@@ -21,17 +21,16 @@ export function List(props) {
   const observer = new IntersectionObserver((entries) => {
     requestIdleCallback(() => {
       for (const entry of entries) {
-        if (entry.intersectionRatio > 0.7) {
+        console.log(entry.target, entry.intersectionRatio)
+        if (entry.intersectionRatio >= 0.75) {
           map.get(entry.target)[0]();
         }
-        if (entry.intersectionRatio < 0.45) {
+        if (entry.intersectionRatio <= 0.5) {
           map.get(entry.target)[1]();
         }
       }
     });
-  }, {
-    threshold: [0.8, 0.3]
-  })
+  }, {threshold: [0.5, 0.75]} )
 
   return (
     <ul className="List">
